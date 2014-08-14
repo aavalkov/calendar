@@ -62,7 +62,9 @@ def calendar_menu
   when 5
     @selected_day = Date.today
     today
-  when 6 then week
+  when 6
+    @selected_week = Date.today
+    week
   when 7
     @selected_month = Date.today
     month
@@ -154,8 +156,7 @@ def display_events(selected_day)
 end
 
 def week
-  today = Date.today
-  sunday = today - today.wday
+  sunday = @selected_week - @selected_week.wday
   saturday = sunday + 6
   all_events = @current_calendar.events.sort_by{|event| event.start}
   all_events.each do |event|
@@ -163,7 +164,17 @@ def week
       puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location
     end
   end
-
+  puts "Press 1 to go back a week, 2 to go forward a week, or 3 to return to the menu"
+  case gets.chomp.to_i
+    when 1
+      @selected_week = @selected_week - 7
+      week
+    when 2
+      @selected_week = @selected_week +7
+      week
+    when 3
+      calendar_menu
+  end
 end
 
 def month
