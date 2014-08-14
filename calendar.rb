@@ -135,6 +135,15 @@ def today
 end
 
 def week
+  today = Date.today
+  sunday = today - today.wday
+  saturday = sunday + 6
+  all_events = @current_calendar.events.sort_by{|event| event.start}
+  all_events.each do |event|
+    if event.start.to_date >= sunday && event.start.to_date <= saturday
+      puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location
+    end
+  end
 
 end
 
