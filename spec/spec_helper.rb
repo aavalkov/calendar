@@ -10,5 +10,6 @@ ActiveRecord::Base.establish_connection(test_configuration)
 RSpec.configure do |config|
   config.before(:each) do
     Event.all.each { |event| event.destroy }
+    Calendar.all.each { |calendar| calendar.destroy }
   end
 end
