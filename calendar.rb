@@ -50,12 +50,14 @@ def calendar_menu
   puts "2) Show future events"
   puts "3) Delete an event"
   puts "4) Edit an event"
+  puts "5) Today's events"
   puts "10) Exit"
   case gets.chomp.to_i
   when 1 then create_event
   when 2 then list_events_by_date
   when 3 then delete_event
   when 4 then edit_event
+  when 5 then today
   when 10 then exit
   end
   calendar_menu
@@ -116,6 +118,15 @@ def edit_event
     when 4
       puts "Enter the new end date and time (YYYY-MM-DD [HH:MM:SS])"
       event.update(end_time: gets.chomp)
+  end
+end
+
+def today
+  all_events = @current_calendar.events.sort_by{|event| event.start}
+  all_events.each do |event|
+    if event.start.to_date == Date.today
+      puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location
+    end
   end
 end
 
