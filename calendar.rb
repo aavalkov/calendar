@@ -144,11 +144,25 @@ def create_event
     puts "That wasn't a valid event:"
     new_event.errors.full_messages.each { |message| puts message }
   end
-  puts "Do you want this event to repeat daily? 'y' for yes, 'n' for no"
-  if gets.chomp == 'y'
-    puts "How many days do you want this event to occur?"
-    new_event.repeat_daily(gets.chomp.to_i)
-    puts "Success!"
+  puts "Do you want this event to repeat daily, weekly, or monthly? 'y' for yes, 'n' for no"
+  puts "1) for daily"
+  puts "2) for weekly"
+  puts "3) for monthly"
+  puts "4) for main menu"
+  case gets.chomp.to_i
+    when 1
+      puts "How many days do you want this event to occur?"
+      new_event.repeat_daily(gets.chomp.to_i)
+      puts "Success!"
+    when 2
+      puts "For how many weeks do you want this event to occur?"
+      new_event.repeat_weekly(gets.chomp.to_i)
+      puts "Success!"
+    when 3
+      puts "For how many months do you want this event to occur?"
+      new_event.repeat_monthly(gets.chomp.to_i)
+      puts "Success!"
+    when 4 then main_menu
   end
 end
 
