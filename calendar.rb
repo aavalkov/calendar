@@ -59,9 +59,13 @@ def calendar_menu
   when 2 then list_events_by_date
   when 3 then delete_event
   when 4 then edit_event
-  when 5 then today
+  when 5
+    @selected_day = Date.today
+    today
   when 6 then week
-  when 7 then month
+  when 7
+    @selected_month = Date.today
+    month
   when 10 then exit
   end
   calendar_menu
@@ -126,9 +130,24 @@ def edit_event
 end
 
 def today
+  display_events(@selected_day)
+  puts "Enter 1 to go back a day, 2 to go forward, 3 to go back to the menu"
+  case gets.chomp.to_i
+  when 1
+    @selected_day -= 1
+    today
+  when 2
+    @selected_day += 1
+    today
+  when 3
+    calendar_menu
+  end
+end
+
+def display_events(selected_day)
   all_events = @current_calendar.events.sort_by{|event| event.start}
   all_events.each do |event|
-    if event.start.to_date == Date.today
+    if event.start.to_date == selected_day
       puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location
     end
   end
@@ -150,9 +169,20 @@ end
 def month
   all_events = @current_calendar.events.sort_by{|event| event.start}
   all_events.each do |event|
-    if event.start.to_date.year == Date.today.year && event.start.to_date.month == Date.today.month
+    if event.start.to_date.year == @selected_month.year && event.start.to_date.month == @selected_month.month
       puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location
     end
+  end
+  puts " Press 1 to go back a month, 2 to go forward a month, or 3 to return to the menu"
+  case gets.chomp.to_i
+    when 1
+      @selected_month = @selected_month.prev_month
+      month
+    when 2
+      @selected_month = @selected_month.next_month
+      month
+    when 3
+      calendar_menu
   end
 end
 
