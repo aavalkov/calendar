@@ -144,6 +144,12 @@ def create_event
     puts "That wasn't a valid event:"
     new_event.errors.full_messages.each { |message| puts message }
   end
+  puts "Do you want this event to repeat daily? 'y' for yes, 'n' for no"
+  if gets.chomp == 'y'
+    puts "How many days do you want this event to occur?"
+    new_event.repeat_daily(gets.chomp.to_i)
+    puts "Success!"
+  end
 end
 
 def list_events_by_date
