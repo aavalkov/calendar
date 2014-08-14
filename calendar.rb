@@ -11,6 +11,7 @@ def main_menu
   puts "Calendars"
   puts "1) Create new calendar"
   puts "2) Edit existing calendar"
+  puts "4) Create new to-do item"
   puts "3) Exit"
   case gets.chomp.to_i
   when 1
@@ -19,9 +20,36 @@ def main_menu
     calendar_login
     calendar_menu
   when 3 then exit
+  when 4 then todo_menu
   end
   main_menu
 end
+
+def todo_menu
+  puts "1) Create new to-do item"
+  puts "2) View to-do list"
+  puts "3) Add a note to a to-do item"
+  puts "4) Main Menu"
+  case gets.chomp.to_i
+  when 1 then create_todo
+  when 2 then view_todos
+  when 3 then add_note_todo
+  when 4 then main_menu
+  end
+  todo_menu
+end
+
+def create_todo
+  puts "Enter the description"
+  Todo.create(description: gets.chomp)
+  puts "Success!"
+end
+
+def view_todos
+  puts "To-Do Items"
+  Todo.all.each {|todo| puts todo.id.to_s + ") " + todo.description}
+end
+
 
 def create_calendar
   puts "Enter the name of the new calendar"
