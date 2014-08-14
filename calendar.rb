@@ -1,5 +1,8 @@
 require 'bundler/setup'
 Bundler.require(:default)
+require 'textacular'
+
+ActiveRecord::Base.extend(Textacular)
 
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
 
@@ -93,7 +96,8 @@ def calendar_menu
   puts "7) This month's events"
   puts "8) Add note to event"
   puts "9) Display notes"
-  puts "10) Exit"
+  puts "10) Search"
+  puts "12) Exit"
   case gets.chomp.to_i
   when 1 then create_event
   when 2 then list_events_by_date
@@ -110,9 +114,18 @@ def calendar_menu
     month
   when 8 then add_note_event
   when 9 then view_event_details
-  when 10 then exit
+  when 10 then search
+  when 12 then exit
   end
   calendar_menu
+end
+
+def search
+  puts "Enter the thing you'd like to search for"
+  Event.basic_search(gets.chomp).each do |event|
+    puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location
+    event.notes.each{|note| puts note.description}
+  end
 end
 
 def create_event
