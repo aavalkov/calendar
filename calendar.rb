@@ -51,6 +51,8 @@ def calendar_menu
   puts "3) Delete an event"
   puts "4) Edit an event"
   puts "5) Today's events"
+  puts "6) This week's events"
+  puts "7) This month's events"
   puts "10) Exit"
   case gets.chomp.to_i
   when 1 then create_event
@@ -58,6 +60,8 @@ def calendar_menu
   when 3 then delete_event
   when 4 then edit_event
   when 5 then today
+  when 6 then week
+  when 7 then month
   when 10 then exit
   end
   calendar_menu
@@ -125,6 +129,19 @@ def today
   all_events = @current_calendar.events.sort_by{|event| event.start}
   all_events.each do |event|
     if event.start.to_date == Date.today
+      puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location
+    end
+  end
+end
+
+def week
+
+end
+
+def month
+  all_events = @current_calendar.events.sort_by{|event| event.start}
+  all_events.each do |event|
+    if event.start.to_date.year == Date.today.year && event.start.to_date.month == Date.today.month
       puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location
     end
   end
