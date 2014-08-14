@@ -47,9 +47,19 @@ end
 
 def view_todos
   puts "To-Do Items"
-  Todo.all.each {|todo| puts todo.id.to_s + ") " + todo.description}
+  Todo.all.each do |todo|
+    puts todo.id.to_s + ") " + todo.description
+    todo.notes.each {|note| puts note.description}
+  end
 end
 
+def add_note_todo
+  view_todos
+  puts "Enter the number of the to-do item to add the note"
+  current_todo = Todo.find(gets.chomp.to_i)
+  puts "Enter the note to be added"
+  current_todo.notes.create(description: gets.chomp)
+end
 
 def create_calendar
   puts "Enter the name of the new calendar"
