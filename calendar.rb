@@ -91,6 +91,8 @@ def calendar_menu
   puts "5) Today's events"
   puts "6) This week's events"
   puts "7) This month's events"
+  puts "8) Add note to event"
+  puts "9) Display notes"
   puts "10) Exit"
   case gets.chomp.to_i
   when 1 then create_event
@@ -106,6 +108,8 @@ def calendar_menu
   when 7
     @selected_month = Date.today
     month
+  when 8 then add_note_event
+  when 9 then view_event_details
   when 10 then exit
   end
   calendar_menu
@@ -233,6 +237,23 @@ def month
     when 3
       calendar_menu
   end
+end
+
+def add_note_event
+  Event.all.each {|event| puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location}
+  puts "Enter the number of the event you'd like to edit"
+  event = Event.find(gets.chomp.to_i)
+  puts "Enter the description"
+  event.notes.create(description: gets.chomp)
+  puts "Success!"
+end
+
+def view_event_details
+  Event.all.each {|event| puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location}
+  puts "Enter the number of the event to view it's notes"
+  event = Event.find(gets.chomp.to_i)
+  puts event.id.to_s + ") " + event.start.to_s + " - " + event.end_time.to_s + "\t" + event.name + "\t" + event.location
+  event.notes.each{|note| puts note.description}
 end
 
 main_menu
